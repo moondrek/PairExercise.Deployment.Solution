@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "deployment-exercise-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: glacial-fortress-84840
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: vk8iq7bitJaxrNkt6fuBoJSXhdDeRmf+C4SafBDQlkWyB/VMIKMe7ZrRU2OWjYize+PQvDWdrA0YqKrSVCQgwKdpKPGhj+x3KelyFKzcUcTyuDUvuuyBdKB1ciimLC+0ScXEULSKLhj+xT2AVMAWwnENnjdYX86F7RLdoo1+XpWqq5Zun/I284EPhOlc82IzCceecfcx60PH7uTWxDqW/B2jEo9fXGzv+VhATFFydG2kEe79MdJisROm47gwfBzvlGLLq5oKgo2bsB5dgKM7EDGhFm2/0qBcEhMDd0Kc5+VxeaE2oAO1QP5Y/i++SM6WOl3A/ExfLh/fO0ruk/qrOkPnlStoOsMogrwJdFnUOf0L8lrvEczPZnlL86zeKBWVav8adlOzh/z7+Ha9me1DKScJ/AP4XjyU7LV8kIbKbSwUkTuFcwjDtFJRRKdE8p21q/AzQGFApNDGlUBCBAdsSRTtS9vRQwN+zb8TvDvIq/saMYxkh6AI0IUQLyV++nHWP6pO0JkDjzjbm+cj+//13OnLNlg2zMzNnAKxevnqN0rfhnFouSDRKzIFpEXUbialTrRo7We5hfVMGtLdVjMF+rMIT19a1NVEptC3u8vAgGHpeAJbI/10779YhXjD7N1DVq7WX86RB7vf69gDuWm8g5r9hsq/jfLNSSkopFco3PE=
